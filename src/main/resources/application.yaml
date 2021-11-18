@@ -1,0 +1,19 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: betterreads
+  data:
+    cassandra:
+      keyspace-name : betterreads
+      username: cassandra
+      password: cassandra
+      port: 9042
+      local-datacenter: datacenter1
+      schema-action: create-if-not-exists
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
