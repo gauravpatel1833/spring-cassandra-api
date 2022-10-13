@@ -2,8 +2,10 @@ package com.techie.spring.cassandra.api;
 
 import com.techie.spring.cassandra.api.model.Author;
 import com.techie.spring.cassandra.api.model.Book;
+import com.techie.spring.cassandra.api.model.Company;
 import com.techie.spring.cassandra.api.repository.AuthorRepository;
 import com.techie.spring.cassandra.api.repository.BookRepository;
+import com.techie.spring.cassandra.api.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class SpringCassandraApiApplication {
@@ -22,14 +26,66 @@ public class SpringCassandraApiApplication {
 	@Autowired
 	BookRepository bookRepository;
 
+	@Autowired
+	CompanyRepository companyRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCassandraApiApplication.class, args);
 	}
 
 	@PostConstruct
 	public void start(){
-		initAuthor();
-		initBook();
+		//initAuthor();
+		//initBook();
+		//initCompany();
+		//getCompanyById("149586");
+		//getCompanyByName("USBank");
+		//deleteCompanyById("1834");
+		//updateCompanyById("149586");
+		getAllCompany();
+	}
+
+	private void getCompanyById(String companyId) {
+		Optional<Company> companyOptional = companyRepository.findById(companyId);
+		if (companyOptional.isPresent()) {
+			Company company = companyOptional.get();
+			System.out.println("Company found : " + company.toString());
+		}
+	}
+
+	private void getAllCompany() {
+		List<Company> companyList = companyRepository.findAll();
+		System.out.println("All Companies : " + companyList.size());
+		companyList.forEach(c -> System.out.println(c));
+	}
+
+	private void getCompanyByName(String companyName) {
+		Company company = companyRepository.findByCompanyName(companyName);
+		System.out.println("Company details found : " + company.toString());
+	}
+
+	private void deleteCompanyById(String companyId) {
+		companyRepository.deleteById(companyId);
+		System.out.println("Company deleted : " + companyId);
+	}
+
+	private void updateCompanyById(String companyId) {
+		Optional<Company> companyOptional = companyRepository.findById(companyId);
+		if (companyOptional.isPresent()) {
+			Company company = companyOptional.get();
+			company.setUniqueBusinessIdentifier("CT");
+			companyRepository.save(company);
+			System.out.println("Company saved : " + company.toString());
+		}
+	}
+
+
+
+	private void initCompany() {
+		Company company = new Company("149586", "USBank", "CTS");
+		System.out.println("Inserting the Company Object");
+		companyRepository.save(company);
+		System.out.println("Data saved successfully.");
 	}
 
 	private void initBook() {

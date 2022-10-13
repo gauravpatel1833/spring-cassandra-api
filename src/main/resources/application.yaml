@@ -6,14 +6,22 @@ spring:
     name: betterreads
   data:
     cassandra:
-      keyspace-name : betterreads
-      username: cassandra
-      password: cassandra
-      port: 9042
-      local-datacenter: datacenter1
-      schema-action: create-if-not-exists
-      request:
-        timeout: 10s
-      connection:
-        connect-timeout: 10s
-        init-query-timeout: 10s
+      config: classpath:/application.conf
+      contact-points: cassandra.eu-west-1.amazonaws.com
+      keyspace-name : eks_keyspace
+      username: ecr-user-at-717904358179
+      password: 2YZ/35DTlsX0zNd0ymMbD2qqUAB0qEVFpyAIwKZ92hE=
+      port: 9142
+      local-datacenter: eu-west-1
+#      schema-action: create-if-not-exists
+#      ssl: false
+#      request:
+#        timeout: 10s
+#      connection:
+#        connect-timeout: 10s
+#        init-query-timeout: 10s
+#ssl:
+#  keystore:
+#    keystoreLocation: C:\\Gaurav\\certs\\cassandra_truststore.jks
+#    keystorePassword: password
+#datacenter1
